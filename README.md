@@ -4,7 +4,7 @@ EKS Cluster using Kops command
 Prerequiste:
 1. Docker installation
 2. Kubectl Installation
-3. 
+3. aws configure
 
 I. Docker installation in EC2:
 ===============================
@@ -70,3 +70,64 @@ echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
 
 5. Verify kubectl version<br/>
 kubectl version --short --client
+
+# To create a Kubernetes cluster on AWS (EKS) using Kubernetes Operations(kops):
+==============================================================================
+1. Install kops IN LINUX:<br/>
+curl -LO https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64
+
+2. Change permission:<br/>
+chmod +x kops-linux-amd64
+
+3. Move kops to bin folder<br/>
+sudo mv kops-linux-amd64 /usr/local/bin/kops
+
+4. Create a S3 bucket with versioning (To persist its state)
+a. aws s3api create-bucket --bucket imesh-kops-state-store --region us-east-1
+b. aws s3api put-bucket-versioning --bucket raman-kops-state-store --versioning-configuration Status=Enabled
+
+5. Create a IAM user with following permissions:<br/>
+AmazonEC2FullAccess
+AmazonRoute53FullAccess
+AmazonS3FullAccess
+AmazonVPCFullAccess
+
+6. Edit ~/.bash_profile: <br/>
+export KOPS_CLUSTER_NAME=raman.k8s.local
+export KOPS_STATE_STORE=s3://raman-kops-state-store
+export AWS_ACCESS_KEY=AKIA3GNTJITY5I23LR6P
+export AWS_SECRET_KEY=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
+
+7. Create a cluster: <br/>
+kops create cluster \
+--node-count=2 \
+--node-size=t2.medium \
+--zones=us-east-1a \
+--name=${KOPS_CLUSTER_NAME}
+
+8. Review the Kubernetes cluster definition by executing the below command:<br/>
+kops edit cluster --name ${KOPS_CLUSTER_NAME}
+
+9. Kubernetes cluster on AWS by executing kops update command:<br/>
+kops update cluster --name ${KOPS_CLUSTER_NAME} --yes
+
+10. command to check its status and wait until the cluster becomes ready:<br/>
+kops validate cluster
+
+11. To deploy the Kubernetes dashboard to access the cluster via its web based user interface: <br/>
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.4/aio/deploy/recommended.yaml
+
+12. to find the admin user’s password: <br/>
+kops get secrets kube --type secret -oplaintext
+
+13. to find the Kubernetes master hostname: <br/>
+kubectl cluster-info
+
+14. Access the Kubernetes dashboard using the following URL: <br/>
+https://<kubernetes-master-hostname>/ui
+
+Note: the secret name used here is different from the previous one:
+kops get secrets admin --type secret -oplaintext
+
+
+kops delete cluster --name=${KOPS_CLUSTER_NAME}
