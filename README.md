@@ -1,7 +1,7 @@
 # EKSCluster
 EKS Cluster using Kops command
 
-Prerequiste:<br/>
+Prerequiste:
 1. Docker installation
 2. Kubectl Installation
 3. 
