@@ -6,8 +6,8 @@ Prerequiste:<br/>
 2. Kubectl Installation
 3. 
 
-Docker installation in EC2:
-===========================
+I. Docker installation in EC2:
+===============================
 1. Update the installed packages and package cache: <br/>
 sudo yum update -y
 
@@ -54,7 +54,8 @@ docker push aws_account_id.dkr.ecr.region.amazonaws.com/hello-repository
 Cleanup:
 aws ecr delete-repository --repository-name hello-repository --region region --force
 
-# Kubectl installation in Amazon Linux 2:
+II. Kubectl installation in Amazon Linux 2:
+============================================
 1. Install Kubectl: (Kubernetes 1.18)<br/>
 curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.9/2020-11-02/bin/linux/amd64/kubectl
 
