@@ -72,7 +72,6 @@ echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
 kubectl version --short --client
 
 # To create a Kubernetes cluster on AWS (EKS) using Kubernetes Operations(kops):
-==============================================================================
 1. Install kops IN LINUX:<br/>
 curl -LO https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64
 
