@@ -1,6 +1,11 @@
 # EKSCluster
 EKS Cluster using Kops command
 
+Prerequiste:<br/>
+1. Docker installation
+2. Kubectl Installation
+3. 
+
 Docker installation in EC2:
 ===========================
 1. Update the installed packages and package cache: <br/>
