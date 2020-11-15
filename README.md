@@ -130,3 +130,5 @@ kops get secrets admin --type secret -oplaintext
 
 
 kops delete cluster --name=${KOPS_CLUSTER_NAME}
+
+For detailed Information: https://medium.com/containermind/how-to-create-a-kubernetes-cluster-on-aws-in-few-minutes-89dda10354f4
